@@ -4,21 +4,31 @@
         theModel = document.querySelector('.modelName'),
         thePrice = document.querySelector('.priceInfo'),
         theDetails = document.querySelector('.modelDetails');
-  const httpRequest = new XMLHttpRequest ();
+  //const httpRequest = new XMLHttpRequest ();
 
   function switchModels() {
+    const url = './includes/functions.php?carModel=' + this.id;
+
+    // the fetch API uses new Javascript Promise API
+    fetch(url) // do an AJAX call with fetch
+      .then((resp) => resp.json()) // convert to JSON - resp can be whatever you want it to be
+      .then((data) => { processResult(data); }) // call the process function
+      .catch(function(error) {
+        console.log(error); // catch any error and report it to the console
+      });
+
     // make an AJAX call to the DB; handle errors first
-    if (!httpRequest) {
+    /*if (!httpRequest) {
       alert('giving up... your browser sucks');
       return false;
     }
 
     httpRequest.onreadystatechange = processRequest;
     httpRequest.open('GET', './includes/functions.php?carModel=' + this.id);
-    httpRequest.send();
+    httpRequest.send();*/
   }
 
-  function processRequest() {
+  /*function processRequest() {
     let reqIndicator = document.querySelector('.request-state');
     reqIndicator.textContent = httpRequest.readyState;
     //debugger;
@@ -33,7 +43,7 @@
         alert('There was a problem with the request.');
       }
     }
-  }
+  }*/
 
 
 
