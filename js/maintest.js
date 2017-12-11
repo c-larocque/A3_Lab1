@@ -12,29 +12,47 @@
     // the fetch API uses new Javascript Promise API
     fetch(url) // do an AJAX call with fetch
       .then((resp) => resp.json()) // convert to JSON - resp can be whatever you want it to be
-      .then(( { modelName, pricing, modelDetails, model }) => {
-        theModel.textContent = modelName;
-        thePrice.innerHTML = pricing;
-        theDetails.textContent = modelDetails;
-
-        carImages.forEach(function(image, index){
-          image.classList.add('nonActive');
-        });
-        // this is a template string constructor - look it up!
-        document.querySelector(`#${model}`).classList.remove('nonActive');
-         }) // call the process function
+      .then((data) => { processResult(data); }) // call the process function
       .catch(function(error) {
         console.log(error); // catch any error and report it to the console
       });
 
+    // make an AJAX call to the DB; handle errors first
+    /*if (!httpRequest) {
+      alert('giving up... your browser sucks');
+      return false;
+    }
+
+    httpRequest.onreadystatechange = processRequest;
+    httpRequest.open('GET', './includes/functions.php?carModel=' + this.id);
+    httpRequest.send();*/
   }
+
+  /*function processRequest() {
+    let reqIndicator = document.querySelector('.request-state');
+    reqIndicator.textContent = httpRequest.readyState;
+    //debugger;
+
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) { // 200 means everything is awesome
+        //debugger;
+        let data = JSON.parse(httpRequest.responseText);
+
+        processResult(data);
+      } else {
+        alert('There was a problem with the request.');
+      }
+    }
+  }*/
+
+
 
     function processResult(data) {
       // destructuring assignment - new for ES6
       const { modelName, pricing, modelDetails } = data;
        //debugger;
 
-      /*theModel.textContent = modelName;
+      theModel.textContent = modelName;
       thePrice.innerHTML = pricing;
       theDetails.textContent = modelDetails;
 
@@ -46,7 +64,7 @@
         image.classList.add('nonActive');
       });
       // this is a template string constructor - look it up!
-      document.querySelector(`#${data.model}`).classList.remove('nonActive');*/
+      document.querySelector(`#${data.model}`).classList.remove('nonActive');
     }
 
     carImages.forEach(function(image, index){
